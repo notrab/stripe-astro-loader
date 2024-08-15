@@ -1,0 +1,40 @@
+{
+  "name": "stripe-astro-loader",
+  "version": "0.0.0-development",
+  "type": "module",
+  "main": "dist/index.js",
+  "repository": "notrab/stripe-astro-loader",
+  "exports": {
+    "products": "./dist/products.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "dev": "tsup src/index.ts --format esm --dts --watch",
+    "prepublishOnly": "node --run build"
+  },
+  "keywords": [
+    "astro",
+    "astro-loader"
+  ],
+  "author": "Jamie Barton <jamie@notrab.dev>",
+  "license": "MIT",
+  "description": "Load Stripe data in Astro.",
+  "devDependencies": {
+    "@types/stripe": "^8.0.416",
+    "astro": "^4.14.2",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
+    "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "astro": "^4.14.0",
+    "stripe": "^16.7.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
