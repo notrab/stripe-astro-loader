@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "repository": "notrab/stripe-astro-loader",
   "exports": {
-    "products": "./dist/products.js"
+    ".": "./dist/index.js"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean",
