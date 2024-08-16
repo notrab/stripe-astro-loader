@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+
+  return products.map((product: any) => ({
+    params: { id: product.id }, props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { Content, headings } = await render(product);
+---
+
+<h1>{product.data.name}</h1>
+<h4>{product.data.created}</h4>
+
+<pre>{JSON.stringify({product, headings}, null, 2)}</pre>
+
+<Content />
