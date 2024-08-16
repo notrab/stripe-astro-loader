@@ -9,7 +9,7 @@ import {
 export type StripePriceLoaderOptions =
   StripeLoaderOptions<Stripe.PriceListParams>;
 
-const zodSchemaFromStripePrices = stripeTsToZod<Stripe.Price>();
+export const zodSchemaFromStripePrices = stripeTsToZod<Stripe.Price>();
 
 export function stripePriceLoader(
   stripe: Stripe,
@@ -28,5 +28,3 @@ export function stripePriceLoader(
     schema: zodSchemaFromStripePrices,
   };
 }
-
-export { zodSchemaFromStripePrices };
