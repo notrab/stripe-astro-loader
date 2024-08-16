@@ -22,7 +22,8 @@ export function stripeProductLoader(
         stripe.products.list.bind(stripe.products),
         options,
         context,
-        "stripe-products-last-updated"
+        "stripe-products-last-updated",
+        (product) => product.description || null
       );
     },
     schema: zodSchemaFromStripeProducts,

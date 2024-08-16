@@ -18,7 +18,8 @@ export async function paginateStripeAPI<
   listFunction: (params: P) => Promise<Stripe.ApiList<T>>,
   options: StripeLoaderOptions<P>,
   context: Parameters<Loader["load"]>[0],
-  metaKey: string
+  metaKey: string,
+  renderItem?: (item: T) => string | null
 ): Promise<T[]> {
   const { logger, parseData, store, meta, generateDigest } = context;
   const { limit = Infinity, ...queryParams } = options;
@@ -50,11 +51,25 @@ export async function paginateStripeAPI<
         const data = await parseData({ id: item.id, data: item });
         const digest = generateDigest(data);
 
-        const changed = store.set({
+        const storeItem: {
+          id: string;
+          data: any;
+          digest: string | number;
+          rendered?: { html: string };
+        } = {
           id: item.id,
           data,
           digest,
-        });
+        };
+
+        if (renderItem) {
+          const renderedHtml = renderItem(item);
+          if (renderedHtml) {
+            storeItem.rendered = { html: renderedHtml };
+          }
+        }
+
+        const changed = store.set(storeItem);
 
         if (changed) {
           logger.debug(`Updated item: ${item.id}`);
