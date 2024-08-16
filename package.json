@@ -23,7 +23,8 @@
     "astro": "^4.14.2",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "stripe": "^16.7.0"
   },
   "peerDependencies": {
     "astro": "^4.14.0",

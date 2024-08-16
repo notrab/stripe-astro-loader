@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const prices = await getCollection('prices');
+
+  return prices.map((price: any) => ({
+    params: { id: price.id }, props: { price },
+  }));
+}
+
+const { price } = Astro.props;
+---
+
+<h1>{price.data.id}</h1>
+
+<pre>{JSON.stringify({price}, null, 2)}</pre>

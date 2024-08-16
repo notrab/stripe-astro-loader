@@ -13,14 +13,19 @@ npm i stripe stripe-astro-loader
 ```ts
 import { defineCollection } from "astro:content";
 import { stripeProductLoader } from "stripe-astro-loader";
+import Stripe from "stripe";
+
+const stripe = new Stripe("SECRET_KEY");
 
 const products = defineCollection({
-  loader: stripeProductLoader({
-    secretKey: "...",
-  }),
+  loader: stripeProductLoader(stripe),
 });
 
-export const collections = { products };
+const prices = defineCollection({
+  loader: stripePriceLoader(stripe),
+});
+
+export const collections = { products, prices };
 ```
 
 Make sure to enable the experimental content layer in your Astro config:

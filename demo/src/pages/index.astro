@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 
 const products = await getCollection('products');
+const prices = await getCollection('prices');
 ---
 
 <html lang="en">
@@ -13,9 +14,19 @@ const products = await getCollection('products');
 		<title>Astro</title>
 	</head>
 	<body>
+        <h1>Stripe Astro Data Loader</h1>
+        <p>Fetch and cache from Stripe using Astro's Content Layer</p>
+	    <h3>Products</h3>
         <ul>
             {products.map((product: any) => (
                 <li><a href={`/products/${product.id}`}>{product.data.name}</a></li>
+            ))}
+        </ul>
+
+        <h3>Prices</h3>
+        <ul>
+            {prices.map((price: any) => (
+                <li><a href={`/prices/${price.id}`}>{price.id}</a></li>
             ))}
         </ul>
 	</body>
