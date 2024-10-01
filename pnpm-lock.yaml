@@ -15,8 +15,8 @@ importers:
         specifier: ^4.14.2
         version: 4.14.3(typescript@5.5.4)
       stripe:
-        specifier: ^16.7.0
-        version: 16.9.0
+        specifier: ^17.0.0
+        version: 17.0.0
       tsup:
         specifier: ^8.2.4
         version: 8.3.0(typescript@5.5.4)
@@ -1206,7 +1206,7 @@ packages:
     resolution: {integrity: sha512-PTuqskh9YKNENnOHGVJBm4sM0zE8B1jZw1JIskuGAPkMB+OH236QeN8scclhYGPA4nG6zTtPXgwpXdp+HPDTVw==}
     deprecated: This is a stub types definition. stripe provides its own type definitions, so you do not need this installed.
     dependencies:
-      stripe: 16.9.0
+      stripe: 17.0.0
     dev: true
 
   /@types/unist@3.0.3:
@@ -3429,8 +3429,8 @@ packages:
     resolution: {integrity: sha512-dOESqjYr96iWYylGObzd39EuNTa5VJxyvVAEm5Jnh7KGo75V43Hk1odPQkNDyXNmUR6k+gEiDVXnjB8HJ3crXw==}
     engines: {node: '>=12'}
 
-  /stripe@16.9.0:
-    resolution: {integrity: sha512-SgzwdMgWNe1FD1A1WevZ/wuv8b4yWz8SiG/vO7Pf4cBl0qat20Clz8Zself+tcbB+fuMkZJrjJ2WmarIgXfCow==}
+  /stripe@17.0.0:
+    resolution: {integrity: sha512-URKpnjH2O+OWxhvXLIaEIaAkp2fQvqITm/3zJS0a3nGCREjH3qJYxmGowngA46Qu1x2MumNL3Y/OdY6uzIhpCQ==}
     engines: {node: '>=12.*'}
     dependencies:
       '@types/node': 22.5.1
