@@ -20,14 +20,14 @@
   "description": "Load Stripe data in Astro.",
   "devDependencies": {
     "@types/stripe": "^8.0.416",
-    "astro": "^4.14.2",
+    "astro": "^5.0.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
     "zod": "^3.23.8",
     "stripe": "^16.7.0"
   },
   "peerDependencies": {
-    "astro": "^4.14.0",
+    "astro": "^4.14.0 || ^5.0.0",
     "stripe": "^16.7.0"
   },
   "files": [
