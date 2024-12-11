@@ -1,7 +1,3 @@
 import { defineConfig } from "astro/config";
 
-export default defineConfig({
-  experimental: {
-    contentLayer: true,
-  },
-});
+export default defineConfig({});
