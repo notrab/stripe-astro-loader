@@ -12,7 +12,7 @@ npm i stripe stripe-astro-loader
 
 ```ts
 import { defineCollection } from "astro:content";
-import { stripeProductLoader } from "stripe-astro-loader";
+import { stripePriceLoader, stripeProductLoader } from "stripe-astro-loader";
 import Stripe from "stripe";
 
 const stripe = new Stripe("SECRET_KEY");
