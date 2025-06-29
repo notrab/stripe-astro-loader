@@ -1,9 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 
+
 const products = await getCollection('products');
 const prices = await getCollection('prices');
 const plans = await getCollection('plans');
+const customers = await getCollection('customers');
 ---
 
 <html lang="en">
@@ -19,23 +21,26 @@ const plans = await getCollection('plans');
         <p>Fetch and cache from Stripe using Astro's Content Layer</p>
 	    <h3>Products</h3>
         <ul>
-            {products.map((product: any) => (
+            {products.map((product) => (
                 <li><a href={`/products/${product.id}`}>{product.data.name}</a></li>
             ))}
         </ul>
 
         <h3>Prices</h3>
         <ul>
-            {prices.map((price: any) => (
-                <li><a href={`/prices/${price.id}`}>{price.id}</a></li>
+            {prices.map((price) => (
+                <li><a href={`/prices/${price.id}`}>{price.id} - {price.data.currency.toUpperCase()} {price.data.unit_amount ? (price.data.unit_amount / 100).toFixed(2) : 'Custom'}</a></li>
             ))}
         </ul>
 
         <h3>Plans</h3>
         <ul>
-            {plans.map((plan: any) => (
-                <li><a href={`/plans/${plan.id}`}>{plan.data.nickname || plan.id}</a></li>
+            {plans.map((plan) => (
+                <li><a href={`/plans/${plan.id}`}>{plan.data.nickname || plan.id} - {plan.data.currency.toUpperCase()} {plan.data.amount ? (plan.data.amount / 100).toFixed(2) : 'Free'}</a></li>
             ))}
         </ul>
+
+        <h3>Customers</h3>
+        <pre>{JSON.stringify(customers, null, 2)}</pre>
 	</body>
 </html>
