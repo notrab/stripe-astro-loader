@@ -3,10 +3,6 @@ import { AstroError } from "astro/errors";
 import type { Loader } from "astro/loaders";
 import Stripe from "stripe";
 
-export function stripeTsToZod<T>() {
-  return z.custom<T>(() => true) as z.ZodType<T>;
-}
-
 export type StripeLoaderOptions<T> = T & {
   limit?: number;
 };

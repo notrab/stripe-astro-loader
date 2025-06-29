@@ -1,27 +1,88 @@
 ---
 import { getCollection, render } from 'astro:content';
+import type Stripe from 'stripe';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
-
   const prices = await getCollection('prices');
 
-  return products.map((product: any) => ({
+  return products.map((product) => ({
     params: { id: product.id },
     props: {
       product,
-      prices: prices.filter((price: any) => price.data.product === product.id)
+      prices: prices.filter((price) => price.data.product === product.id)
     },
   }));
 }
 
-const { product, prices } = Astro.props;
+interface Props {
+  product: {
+    id: string;
+    data: Stripe.Product;
+  };
+  prices: Array<{
+    id: string;
+    data: Stripe.Price;
+  }>;
+}
+
+const { product, prices } = Astro.props as Props;
 const { Content } = await render(product);
 ---
 
-<h1>{product.data.name}</h1>
-<h4>{product.data.created}</h4>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{product.data.name} - Stripe Product</title>
+</head>
+<body>
+  <h1>{product.data.name}</h1>
+  <p>{product.data.description}</p>
 
-<pre>{JSON.stringify({product, prices}, null, 2)}</pre>
+  <div>
+    <strong>Active:</strong> {product.data.active ? 'Yes' : 'No'}
+  </div>
 
-<Content />
+  <div>
+    <strong>Created:</strong> {new Date(product.data.created * 1000).toLocaleDateString()}
+  </div>
+
+  <div>
+    <strong>Last Updated:</strong> {new Date(product.data.updated * 1000).toLocaleDateString()}
+  </div>
+
+  {product.data.images.length > 0 && (
+    <div>
+      <strong>Images:</strong>
+      <div>
+        {product.data.images.map((image) => (
+          <img src={image} alt={product.data.name} style="max-width: 200px; margin: 10px;" />
+        ))}
+      </div>
+    </div>
+  )}
+
+  {prices.length > 0 && (
+    <div>
+      <h3>Prices</h3>
+      <ul>
+        {prices.map((price) => (
+          <li>
+            {price.data.nickname || price.id} -
+            {price.data.currency.toUpperCase()}
+            {price.data.unit_amount ? (price.data.unit_amount / 100).toFixed(2) : 'Custom'}
+            {price.data.recurring && (
+              <span> per {price.data.recurring.interval}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <Content />
+
+  <a href="/">← Back to all products</a>
+</body>
+</html>
