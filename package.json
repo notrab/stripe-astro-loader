@@ -13,7 +13,11 @@
   },
   "keywords": [
     "astro",
-    "astro-loader"
+    "astro-loader",
+    "astro-integration",
+    "content-layer",
+    "stripe",
+    "withastro"
   ],
   "author": "Jamie Barton <jamie@notrab.dev>",
   "license": "MIT",
