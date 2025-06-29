@@ -1,5 +1,9 @@
 import { defineCollection } from "astro:content";
-import { stripePriceLoader, stripeProductLoader } from "stripe-astro-loader";
+import {
+  stripePriceLoader,
+  stripeProductLoader,
+  stripePlanLoader,
+} from "stripe-astro-loader";
 import Stripe from "stripe";
 
 const stripe = new Stripe("");
@@ -12,4 +16,8 @@ const prices = defineCollection({
   loader: stripePriceLoader(stripe),
 });
 
-export const collections = { products, prices };
+const plans = defineCollection({
+  loader: stripePlanLoader(stripe),
+});
+
+export const collections = { products, prices, plans };

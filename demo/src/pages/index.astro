@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 
 const products = await getCollection('products');
 const prices = await getCollection('prices');
+const plans = await getCollection('plans');
 ---
 
 <html lang="en">
@@ -27,6 +28,13 @@ const prices = await getCollection('prices');
         <ul>
             {prices.map((price: any) => (
                 <li><a href={`/prices/${price.id}`}>{price.id}</a></li>
+            ))}
+        </ul>
+
+        <h3>Plans</h3>
+        <ul>
+            {plans.map((plan: any) => (
+                <li><a href={`/plans/${plan.id}`}>{plan.data.nickname || plan.id}</a></li>
             ))}
         </ul>
 	</body>

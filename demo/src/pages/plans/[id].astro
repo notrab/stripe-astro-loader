@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const plans = await getCollection('plans');
+
+  return plans.map((plan: any) => ({
+    params: { id: plan.id },
+    props: {
+      plan,
+    },
+  }));
+}
+
+const { plan } = Astro.props;
+---
+
+<h1>{plan.data.nickname || plan.id}</h1>
+<h4>Created: {new Date(plan.data.created * 1000).toLocaleDateString()}</h4>
+<p><strong>Amount:</strong> ${(plan.data.amount / 100).toFixed(2)} {plan.data.currency.toUpperCase()}</p>
+<p><strong>Interval:</strong> {plan.data.interval}</p>
+<p><strong>Active:</strong> {plan.data.active ? 'Yes' : 'No'}</p>
+
+<pre>{JSON.stringify(plan, null, 2)}</pre>
