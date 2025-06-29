@@ -2,15 +2,18 @@ import { z } from "astro/zod";
 import type Stripe from "stripe";
 
 /**
- * Creates a Zod schema that validates essential Stripe object properties
- * while preserving full TypeScript typing from the Stripe SDK.
- * This approach avoids manually maintaining schemas that duplicate Stripe's types.
+ * Creates a Zod schema that preserves full TypeScript typing from the Stripe SDK
+ * while providing minimal validation for essential properties.
+ *
+ * This approach avoids manually maintaining schemas that duplicate Stripe's types
+ * and ensures that all Stripe properties are available with proper TypeScript inference.
  */
 function createStripeObjectSchema<T extends Record<string, any>>(
   stripeObjectType: string,
   additionalValidation?: z.ZodRawShape
 ): z.ZodType<T> {
-  const baseSchema = z.object({
+  // Create a minimal validation schema that checks essential Stripe properties
+  const validationSchema = z.object({
     id: z.string(),
     object: z.literal(stripeObjectType),
     created: z.number().optional(),
@@ -19,8 +22,27 @@ function createStripeObjectSchema<T extends Record<string, any>>(
     ...additionalValidation,
   });
 
-  // Use passthrough to allow all Stripe properties while validating key ones
-  return baseSchema.passthrough() as unknown as z.ZodType<T>;
+  // Return a schema that validates essential properties but allows all others
+  // This preserves the full Stripe TypeScript types while ensuring data integrity
+  return z.any().superRefine((data, ctx) => {
+    // Basic type check
+    if (typeof data !== "object" || data === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.invalid_type,
+        expected: "object",
+        received: typeof data,
+      });
+      return;
+    }
+
+    // Validate essential properties using the validation schema
+    const result = validationSchema.safeParse(data);
+    if (!result.success) {
+      result.error.issues.forEach((issue) => {
+        ctx.addIssue(issue);
+      });
+    }
+  }) as unknown as z.ZodType<T>;
 }
 
 /**
@@ -33,15 +55,14 @@ function createStripeObjectSchema<T extends Record<string, any>>(
  * @returns A Zod schema that validates the object while preserving full Stripe types
  *
  * @example
- * // Basic usage - validates core Stripe properties
+ * // Basic usage - validates core Stripe properties, preserves all Stripe types
  * const productSchema = stripeTsToZod<Stripe.Product>("product");
  *
  * @example
- * // With additional validation
+ * // With additional validation for specific fields you care about
  * const productSchema = stripeTsToZod<Stripe.Product>("product", {
  *   name: z.string().min(1),
  *   active: z.boolean(),
- *   type: z.enum(["good", "service"])
  * });
  */
 export function stripeTsToZod<T extends Record<string, any>>(

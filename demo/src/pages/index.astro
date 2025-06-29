@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 const products = await getCollection('products');
 const prices = await getCollection('prices');
 const plans = await getCollection('plans');
+const customers = await getCollection('customers');
 ---
 
 <html lang="en">
@@ -28,7 +29,7 @@ const plans = await getCollection('plans');
         <h3>Prices</h3>
         <ul>
             {prices.map((price) => (
-                <li><a href={`/prices/${price.id}`}>{price.data.nickname || price.id} - {price.data.currency.toUpperCase()} {price.data.unit_amount ? (price.data.unit_amount / 100).toFixed(2) : 'Custom'}</a></li>
+                <li><a href={`/prices/${price.id}`}>{price.id} - {price.data.currency.toUpperCase()} {price.data.unit_amount ? (price.data.unit_amount / 100).toFixed(2) : 'Custom'}</a></li>
             ))}
         </ul>
 
@@ -38,5 +39,8 @@ const plans = await getCollection('plans');
                 <li><a href={`/plans/${plan.id}`}>{plan.data.nickname || plan.id} - {plan.data.currency.toUpperCase()} {plan.data.amount ? (plan.data.amount / 100).toFixed(2) : 'Free'}</a></li>
             ))}
         </ul>
+
+        <h3>Customers</h3>
+        <pre>{JSON.stringify(customers, null, 2)}</pre>
 	</body>
 </html>

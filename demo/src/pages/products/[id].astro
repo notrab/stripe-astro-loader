@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import type Stripe from 'stripe';
 
 export async function getStaticPaths() {
@@ -27,7 +27,6 @@ interface Props {
 }
 
 const { product, prices } = Astro.props as Props;
-const { Content } = await render(product);
 ---
 
 <html lang="en">
@@ -81,7 +80,7 @@ const { Content } = await render(product);
     </div>
   )}
 
-  <Content />
+  {/* Rendered content would go here */}
 
   <a href="/">← Back to all products</a>
 </body>

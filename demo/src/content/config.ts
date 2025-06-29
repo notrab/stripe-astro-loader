@@ -9,7 +9,6 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 
-// Products using createStripeLoader
 const products = defineCollection({
   loader: createStripeLoader(
     stripe,
@@ -26,7 +25,6 @@ const products = defineCollection({
   ),
 });
 
-// Prices using createStripeLoader
 const prices = defineCollection({
   loader: createStripeLoader(
     stripe,
@@ -42,7 +40,6 @@ const prices = defineCollection({
   ),
 });
 
-// Plans using createStripeLoader
 const plans = defineCollection({
   loader: createStripeLoader(stripe, {
     name: "plan",
@@ -51,7 +48,6 @@ const plans = defineCollection({
   }),
 });
 
-// Customers using createStripeLoader
 const customers = defineCollection({
   loader: createStripeLoader(
     stripe,
@@ -80,7 +76,7 @@ const webhookEndpoints = defineCollection({
     name: "webhook-endpoint",
     objectType: "webhook_endpoint",
     listFunction: stripe.webhookEndpoints.list.bind(stripe.webhookEndpoints),
-    schema: stripeTsToZod("webhook_endpoint", {
+    schema: stripeTsToZod<Stripe.WebhookEndpoint>("webhook_endpoint", {
       url: z.string(),
       enabled_events: z.array(z.string()),
       status: z.enum(["enabled", "disabled"]).optional(),
